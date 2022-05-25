@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { ThemeProvider } from 'styled-components';
+import MobileMenu from './components/mobileMenu/MobileMenu';
+import Navbar from './components/navbar/Navbar';
+import GlobalStyles from './GlobalStyles';
+import { theme } from './components/theme/theme';
+import useTheme from './components/theme/useTheme';
+import Overlay from './components/overlay/Overlay';
+import Home from './pages/Home';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const { menuOpen, menuToggler } = useTheme();
+
+    return (
+        <>
+            <ThemeProvider theme={menuOpen ? theme.menuOpen : theme.closeMenu}>
+                <GlobalStyles />
+                <Navbar menuToggler={menuToggler} />
+                <MobileMenu menuToggler={menuToggler} />
+                {menuOpen && <Overlay />}
+                <Home />
+            </ThemeProvider>
+        </>
+    );
 }
 
 export default App;
